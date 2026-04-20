@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import InteractiveGlobe from "./InteractiveGlobe";
 
 const useCases = [
   {
@@ -69,8 +70,8 @@ export default function Hero() {
       </div>
 
       {/* Top Header Section */}
-      <div className="container mx-auto px-6 mb-12 flex flex-col gap-8 relative z-10 w-full shrink-0">
-        <div className="max-w-2xl">
+      <div className="container mx-auto px-6 mb-12 flex flex-col lg:flex-row items-center gap-12 relative z-10 w-full shrink-0 mt-8 lg:mt-0">
+        <div className="max-w-2xl lg:w-1/2 flex flex-col items-center text-center lg:items-start lg:text-left z-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -99,22 +100,26 @@ export default function Hero() {
           >
             Discover suppliers, negotiate pricing, and manage all your inventory in one beautiful platform built for the real world.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            className="w-full sm:w-auto"
+          >
+            <a 
+              href="#role-entry"
+              className="group inline-flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-full text-lg font-medium tracking-tight shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:shadow-[0_15px_40px_rgba(16,185,129,0.4)] hover:bg-brand-primary-dark transition-all w-full sm:w-auto"
+            >
+              Start Ordering Smarter
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 border border-white/20 bg-white/10 rounded-full p-1 box-content transition-transform" />
+            </a>
+          </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className=""
-        >
-          <a 
-            href="#role-entry"
-            className="group inline-flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-full text-lg font-medium tracking-tight shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:shadow-[0_15px_40px_rgba(16,185,129,0.4)] hover:bg-brand-primary-dark transition-all w-full sm:w-auto"
-          >
-            Start Ordering Smarter
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 border border-white/20 bg-white/10 rounded-full p-1 box-content transition-transform" />
-          </a>
-        </motion.div>
+        <div className="w-full lg:w-1/2 h-[350px] sm:h-[400px] lg:h-[500px] z-10">
+          <InteractiveGlobe />
+        </div>
       </div>
 
       {/* Interactive Hero Cards Strip */}

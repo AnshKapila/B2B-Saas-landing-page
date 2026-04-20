@@ -9,10 +9,12 @@ import Trust from "./components/Trust";
 import FinalCTA from "./components/FinalCTA";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import CursorTrail from "./components/CursorTrail";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-bg text-ink font-sans selection:bg-brand-primary/20 selection:text-ink overflow-hidden">
+    <div className="min-h-screen bg-bg text-ink font-sans selection:bg-brand-primary/20 selection:text-ink overflow-hidden relative">
+      <CursorTrail />
       <Navbar />
       <main>
         <Hero />
