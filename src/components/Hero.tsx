@@ -53,32 +53,16 @@ export default function Hero() {
   return (
     <section className="relative min-h-[100svh] pt-32 pb-0 flex flex-col justify-between bg-white overflow-hidden">
       
-      {/* Dynamic Video Background Layer */}
-      <div className="absolute inset-0 w-full h-[80%] z-0 pointer-events-none origin-top overflow-hidden">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105"
-          src="/background.mp4" 
-        />
-        {/* Fallback gradient in case video path is missing */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/10 via-transparent to-brand-primary-light/5 -z-10" />
-        {/* Soft fade out to bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white" />
-      </div>
-
       {/* Top Header Section */}
       <div className="container mx-auto px-6 mb-12 flex flex-col lg:flex-row items-center gap-12 relative z-10 w-full shrink-0 mt-8 lg:mt-0">
-        <div className="max-w-2xl lg:w-1/2 flex flex-col items-center text-center lg:items-start lg:text-left z-20">
+        <div className="max-w-2xl lg:w-1/2 flex flex-col items-center text-center lg:items-start lg:text-left relative z-30">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 backdrop-blur-md border border-white/60 text-sm font-medium text-ink mb-8 shadow-sm mix-blend-hard-light"
           >
-            <span className="flex h-2 w-2 rounded-full bg-brand-primary animate-pulse"></span>
+            <span className="flex h-2 w-2 rounded-full bg-brand-secondary animate-pulse"></span>
             Meet Gradient 365 Cafe Portal
           </motion.div>
 
@@ -117,7 +101,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <div className="w-full lg:w-1/2 h-[350px] sm:h-[400px] lg:h-[500px] z-10">
+        <div className="w-full lg:w-1/2 h-[350px] sm:h-[400px] lg:h-[500px] relative z-0">
           <InteractiveGlobe />
         </div>
       </div>
@@ -127,7 +111,7 @@ export default function Hero() {
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="w-full flex-1 flex flex-col md:flex-row min-h-[40vh] md:min-h-[50vh] xl:min-h-[60vh] mt-auto"
+        className="relative z-20 w-full flex-1 flex flex-col md:flex-row min-h-[40vh] md:min-h-[50vh] xl:min-h-[60vh] mt-auto"
       >
         {useCases.map((card, idx) => {
           const isAlternate = idx === 1 || idx === 3;

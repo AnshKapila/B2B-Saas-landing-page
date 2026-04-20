@@ -64,20 +64,20 @@ export default function RoleEntry() {
             whileHover={{ y: -10 }}
             className="group relative rounded-[2.5rem] bg-surface border border-black/5 p-8 md:p-12 overflow-hidden cursor-pointer flex flex-col justify-between min-h-[400px]"
           >
-            <div className="absolute inset-0 bg-gradient-to-bl from-blue-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-blue-500/10 transition-colors duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-bl from-brand-secondary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-secondary/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-brand-secondary/10 transition-colors duration-500" />
             
             <div className="relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-black/5 flex items-center justify-center text-blue-500 mb-8 group-hover:scale-110 transition-transform duration-500">
+              <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-black/5 flex items-center justify-center text-brand-secondary mb-8 group-hover:scale-110 transition-transform duration-500">
                 <Truck size={32} />
               </div>
-              <h3 className="text-3xl font-bold text-ink mb-4 group-hover:text-blue-500 transition-colors">I am a Supplier</h3>
+              <h3 className="text-3xl font-bold text-ink mb-4 group-hover:text-brand-secondary transition-colors">I am a Supplier</h3>
               <p className="text-soft-ink leading-relaxed font-light mb-8 max-w-sm">
                 I want a digital storefront, automated incoming orders, and an easier way to negotiate with and bill all my cafe clients.
               </p>
             </div>
             
-            <div className="relative z-10 flex items-center gap-2 text-blue-500 font-medium opacity-80 group-hover:opacity-100 transition-opacity">
+            <div className="relative z-10 flex items-center gap-2 text-brand-secondary font-medium opacity-80 group-hover:opacity-100 transition-opacity">
               Continue as Supplier <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
             </div>
 

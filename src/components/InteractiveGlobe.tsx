@@ -96,6 +96,7 @@ export default function InteractiveGlobe() {
       dims = measure();
     }
     window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('globe-resized', handleResize as any, { passive: true });
 
     function collideCircle(a: any, b: any) {
       const dx = b.x - a.x;
@@ -226,6 +227,7 @@ export default function InteractiveGlobe() {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('globe-resized', handleResize as any);
     };
   }, []);
 
@@ -256,12 +258,30 @@ export default function InteractiveGlobe() {
 
     function resize() {
       if(!container || !canvas || !context) return;
-      width = container.clientWidth;
-      height = container.clientHeight;
+      
+      const rect = container.getBoundingClientRect();
+      const style = window.getComputedStyle(container);
+      const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+      
+      width = rect.width - padX;
+      height = rect.height - padY;
+      
+      // Calculate identical bounds for physics boundaries and canvas
       minDim = Math.min(width, height);
+      minDim = Math.min(minDim, 500); // Prevents infinite scaling on massive screens while remaining perfectly identical
+      
       radius = minDim / 2.2;
       
       const dpr = window.devicePixelRatio || 1;
+
+      // Force the physics/hover boundary to be an exact mathematical match
+      const boundary = container.querySelector('.globe-boundary') as HTMLDivElement;
+      if (boundary) {
+        boundary.style.width = `${minDim}px`;
+        boundary.style.height = `${minDim}px`;
+        boundary.style.setProperty('--globe-radius', `${minDim / 2}px`);
+      }
 
       canvas.width = minDim * dpr;
       canvas.height = minDim * dpr;
@@ -272,6 +292,9 @@ export default function InteractiveGlobe() {
       context.scale(dpr, dpr);
 
       projection.scale(radius).translate([minDim / 2, minDim / 2]);
+      
+      // Let the physics engine know the bounds have explicitly changed
+      window.dispatchEvent(new CustomEvent('globe-resized'));
     }
 
     window.addEventListener('resize', resize, { passive: true });
@@ -339,14 +362,25 @@ export default function InteractiveGlobe() {
 
     d3.select(canvas).call(drag as any);
 
+    let isHovered = false;
+    const handleMouseEnter = () => { isHovered = true; };
+    const handleMouseLeave = () => { isHovered = false; };
+    
+    if (container) {
+      container.addEventListener('mouseenter', handleMouseEnter);
+      container.addEventListener('mouseleave', handleMouseLeave);
+    }
+
     const timer = d3.timer(() => {
       if (!isDragging) {
+        let targetSpin = isHovered ? 0.05 : 0.3; // Much slower when hovered
+        
         // Apply momentum or auto-spin
-        rotation[0] += dragVelocity[0] || 0.3;
+        rotation[0] += dragVelocity[0] || targetSpin;
         rotation[1] += dragVelocity[1] || 0;
         
         // Slowly dampen velocity back to default slow spin
-        dragVelocity[0] = dragVelocity[0] * 0.95 + 0.3 * 0.05; 
+        dragVelocity[0] = dragVelocity[0] * 0.95 + targetSpin * 0.05; 
         dragVelocity[1] = dragVelocity[1] * 0.95;
         
         projection.rotate(rotation);
@@ -357,63 +391,78 @@ export default function InteractiveGlobe() {
     return () => {
       timer.stop();
       window.removeEventListener('resize', resize);
+      if (container) {
+        container.removeEventListener('mouseenter', handleMouseEnter);
+        container.removeEventListener('mouseleave', handleMouseLeave);
+      }
     };
   }, []);
 
   return (
     <div ref={containerRef} className="w-full h-full relative z-10 flex items-center justify-center p-4 lg:p-8 min-h-[400px]">
-      <div 
-        ref={arenaRef} 
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[480px] aspect-square border border-brand-primary/15 rounded-full z-30 pointer-events-none overflow-hidden"
-      >
+      
+      {/* Strict boundary wrapper for unified sizing */}
+      <div className="globe-boundary group relative flex items-center justify-center pointer-events-none">
+        
+        {/* Visual Expanding Circle with Gradient */}
         <div 
-          ref={centerRef} 
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-md px-5 py-3.5 rounded-full flex items-center gap-3 border border-brand-primary/20 shadow-[0_0_30px_rgba(16,185,129,0.2)] pointer-events-none"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full border border-brand-primary/15 rounded-full z-10 pointer-events-none transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-[400%] group-hover:h-[400%]"
+          style={{ background: 'radial-gradient(circle closest-side, rgba(16,185,129,0) 0, rgba(16,185,129,0) var(--globe-radius, 240px), rgba(16,185,129,0.14) 100%)' }}
+        />
+
+        <div 
+          ref={arenaRef} 
+          className="absolute inset-0 rounded-full z-30 pointer-events-none overflow-visible"
         >
-          <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-brand-primary to-brand-primary-light text-white shadow-sm shrink-0">
-            <Coffee size={14} strokeWidth={2.5} />
+          <div 
+            ref={centerRef} 
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-md px-5 py-3.5 rounded-full flex items-center gap-3 border border-brand-primary/20 shadow-[0_0_30px_rgba(16,185,129,0.2)] pointer-events-none"
+          >
+            <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-brand-primary to-brand-primary-light text-white shadow-sm shrink-0">
+              <Coffee size={14} strokeWidth={2.5} />
+            </div>
+            <span className="text-sm font-semibold text-ink hidden sm:block">Gradient 365</span>
           </div>
-          <span className="text-sm font-semibold text-ink hidden sm:block">Gradient 365</span>
+
+          <div 
+            ref={(el) => { if(el) pillRefs.current[0] = el; }} 
+            className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
+          >
+            <Bot className="w-5 h-5 text-brand-primary" />
+            <span className="text-xs font-semibold text-ink hidden sm:block">GPT-4</span>
+          </div>
+
+          <div 
+            ref={(el) => { if(el) pillRefs.current[1] = el; }} 
+            className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
+          >
+            <MessageSquare className="w-5 h-5 text-brand-primary" />
+            <span className="text-xs font-semibold text-ink hidden sm:block">Claude</span>
+          </div>
+
+          <div 
+            ref={(el) => { if(el) pillRefs.current[2] = el; }} 
+            className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
+          >
+            <Sparkles className="w-5 h-5 text-brand-primary" />
+            <span className="text-xs font-semibold text-ink hidden sm:block">Gemini</span>
+          </div>
+
+          <div 
+            ref={(el) => { if(el) pillRefs.current[3] = el; }} 
+            className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
+          >
+            <Heart className="w-5 h-5 text-brand-primary fill-brand-primary/20" />
+            <span className="text-xs font-semibold text-ink hidden sm:block">Lovable</span>
+          </div>
         </div>
 
-        <div 
-          ref={(el) => { if(el) pillRefs.current[0] = el; }} 
-          className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
-        >
-          <Bot className="w-5 h-5 text-brand-primary" />
-          <span className="text-xs font-semibold text-ink hidden sm:block">GPT-4</span>
-        </div>
-
-        <div 
-          ref={(el) => { if(el) pillRefs.current[1] = el; }} 
-          className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
-        >
-          <MessageSquare className="w-5 h-5 text-brand-primary" />
-          <span className="text-xs font-semibold text-ink hidden sm:block">Claude</span>
-        </div>
-
-        <div 
-          ref={(el) => { if(el) pillRefs.current[2] = el; }} 
-          className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
-        >
-          <Sparkles className="w-5 h-5 text-brand-primary" />
-          <span className="text-xs font-semibold text-ink hidden sm:block">Gemini</span>
-        </div>
-
-        <div 
-          ref={(el) => { if(el) pillRefs.current[3] = el; }} 
-          className="will-change-transform absolute top-0 left-0 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-2 border border-brand-primary/10 shadow-sm pointer-events-auto cursor-pointer hover:bg-white hover:scale-105 transition-transform"
-        >
-          <Heart className="w-5 h-5 text-brand-primary fill-brand-primary/20" />
-          <span className="text-xs font-semibold text-ink hidden sm:block">Lovable</span>
-        </div>
+        <canvas 
+          ref={canvasRef}
+          className="absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out cursor-grab active:cursor-grabbing z-20 pointer-events-auto rounded-full" 
+          aria-hidden="true" 
+        />
       </div>
-
-      <canvas 
-        ref={canvasRef}
-        className="opacity-0 transition-opacity duration-1000 ease-in-out cursor-grab active:cursor-grabbing z-20 pointer-events-auto rounded-full" 
-        aria-hidden="true" 
-      />
     </div>
   );
 }

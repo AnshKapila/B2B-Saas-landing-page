@@ -44,7 +44,7 @@ export default function CursorTrail() {
 
         const d = dots[i];
         if (d) {
-          d.style.transform = `translate(${p.x - 4}px, ${p.y - 4}px)`;
+          d.style.transform = `translate(${p.x - 8}px, ${p.y - 8}px)`;
         }
 
         x = p.x;
@@ -78,10 +78,10 @@ export default function CursorTrail() {
         <div
           key={i}
           ref={(el) => { dotsRef.current[i] = el; }}
-          className="absolute w-2 h-2 rounded-full opacity-0 will-change-transform"
+          className="absolute w-4 h-4 rounded-full opacity-0 will-change-transform"
           style={{
-            background: `rgba(239, 68, 68, ${visual.op})`, // using #EF4444 Red
-            boxShadow: `rgba(239, 68, 68, ${visual.shadowOp}) 0px 0px ${visual.blur}px`,
+            background: `rgba(209, 71, 71, ${visual.op})`, // using hsl(360, 60%, 55%) Red
+            boxShadow: `rgba(209, 71, 71, ${visual.shadowOp}) 0px 0px ${visual.blur}px`,
             transition: 'opacity 250ms ease',
             transform: 'translate(-9999px, -9999px)'
           }}
