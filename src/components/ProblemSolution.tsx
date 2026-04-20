@@ -21,14 +21,18 @@ export default function ProblemSolution() {
           <div className="grid grid-cols-1 md:grid-cols-2">
             
             {/* The Chaos (Left / Top) */}
-            <div className="p-10 md:p-16 flex flex-col justify-center border-b md:border-b-0 md:border-r border-black/5 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="p-10 md:p-16 flex flex-col justify-center border-b md:border-b-0 md:border-r border-black/5 relative overflow-hidden group min-h-[500px]">
+              <img src="https://picsum.photos/seed/stress/800/800?blur=4" alt="Stressed" className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none" referrerPolicy="no-referrer" />
+              <div className="absolute inset-0 bg-gradient-to-br from-red-50/80 to-white/90 transition-opacity duration-700" />
               
               <div className="relative z-10">
                 <div className="inline-flex px-3 py-1 rounded-full bg-red-50 text-red-600 font-medium text-xs tracking-wider uppercase mb-8">
                   The Old Way
                 </div>
-                <h3 className="text-3xl font-semibold mb-8 text-ink">Scattered & Stressful</h3>
+                <h3 className="text-3xl font-semibold mb-4 text-ink">Scattered & Stressful</h3>
+                <p className="text-soft-ink font-light mb-8 max-w-sm">
+                  Running out of milk during the morning rush? Still managing orders across five different WhatsApp groups and broken spreadsheets?
+                </p>
                 
                 <div className="flex flex-col gap-4 relative">
                   <motion.div 
@@ -70,17 +74,21 @@ export default function ProblemSolution() {
 
             {/* The Solution (Right / Bottom) */}
             <div 
-              className="p-10 md:p-16 flex flex-col justify-center bg-white relative overflow-hidden"
+              className="p-10 md:p-16 flex flex-col justify-center bg-white relative overflow-hidden min-h-[500px]"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <div className="absolute inset-0 bg-gradient-to-tl from-brand-primary/10 to-transparent opacity-100 transition-opacity duration-700" />
+              <img src="https://picsum.photos/seed/calmcoffee/800/800?blur=4" alt="Calm cafe" className="absolute inset-0 w-full h-full object-cover opacity-5 group-hover:opacity-15 transition-opacity duration-700 pointer-events-none" referrerPolicy="no-referrer" />
+              <div className="absolute inset-0 bg-gradient-to-tl from-brand-primary/10 to-white/90 opacity-100 transition-opacity duration-700" />
               
               <div className="relative z-10">
                 <div className="inline-flex px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary-dark font-medium text-xs tracking-wider uppercase mb-8">
                   Gradient 365
                 </div>
-                <h3 className="text-3xl font-semibold mb-8 text-ink">Unified & Beautiful</h3>
+                <h3 className="text-3xl font-semibold mb-4 text-ink">Unified & Beautiful</h3>
+                <p className="text-soft-ink font-light mb-8 max-w-sm">
+                  Imagine a single portal where every supplier, every invoice, and every order lives in perfect harmony.
+                </p>
                 
                 <div className="flex flex-col gap-4">
                   {[

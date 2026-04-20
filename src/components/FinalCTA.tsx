@@ -46,14 +46,14 @@ export default function FinalCTA() {
             transition={{ delay: 0.3 }}
             className="flex flex-col sm:flex-row justify-center items-center gap-6"
           >
-            <motion.button 
+            <motion.a 
+              href="#role-entry"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-primary text-white px-10 py-5 rounded-full text-xl font-medium tracking-tight shadow-xl hover:bg-brand-primary-dark transition-all group"
             >
               Get Started
-              <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+            </motion.a>
             <button className="text-soft-ink font-medium hover:text-ink px-6 py-4 transition-colors">
               Talk to Sales
             </button>

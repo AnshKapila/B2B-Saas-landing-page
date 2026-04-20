@@ -22,13 +22,14 @@ export default function Navbar() {
         <a href="#about" className="hover:text-ink transition-colors">About</a>
       </div>
       <div>
-        <motion.button 
+        <motion.a 
+          href="#role-entry"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="bg-brand-primary text-white px-5 py-2.5 rounded-full text-sm font-medium tracking-tight hover:bg-brand-primary-dark transition-colors shadow-sm"
+          className="bg-brand-primary text-white px-5 py-2.5 rounded-full text-sm font-medium tracking-tight hover:bg-brand-primary-dark transition-colors shadow-sm inline-block"
         >
           Get Started
-        </motion.button>
+        </motion.a>
       </div>
     </motion.nav>
   );

@@ -1,4 +1,7 @@
 import Hero from "./components/Hero";
+import Stats from "./components/Stats";
+import ClientLogos from "./components/ClientLogos";
+import RoleEntry from "./components/RoleEntry";
 import ProblemSolution from "./components/ProblemSolution";
 import Features from "./components/Features";
 import ProductExperience from "./components/ProductExperience";
@@ -13,6 +16,9 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <Stats />
+        <ClientLogos />
+        <RoleEntry />
         <ProblemSolution />
         <Features />
         <ProductExperience />

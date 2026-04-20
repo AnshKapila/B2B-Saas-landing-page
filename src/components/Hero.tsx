@@ -1,116 +1,167 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { ArrowRight, ShoppingBag, TrendingUp, Users } from "lucide-react";
-import { useRef } from "react";
+import { motion } from "motion/react";
+import { ArrowRight } from "lucide-react";
 
-import DashboardMockup from "./DashboardMockup";
+const useCases = [
+  {
+    id: 1,
+    title: "Order in Seconds",
+    desc: "A cafe owner placing wholesale orders effortlessly from their phone.",
+    img: "https://picsum.photos/seed/cafeownerindia/800/1000?blur=1",
+    tag: "For Cafes"
+  },
+  {
+    id: 2,
+    title: "Never Let Stock Out",
+    desc: "A warehouse stacked with provisions, ready for the morning dispatch.",
+    img: "https://picsum.photos/seed/indianwarehouse/800/1000?blur=1",
+    tag: "For Suppliers"
+  },
+  {
+    id: 3,
+    title: "Track Everything Live",
+    desc: "A delivery associate loading fresh goods into a truck at dawn.",
+    img: "https://picsum.photos/seed/cafedelivery/800/1000?blur=1",
+    tag: "Real-time"
+  },
+  {
+    id: 4,
+    title: "Breeze Through Rushes",
+    desc: "A barista confidently serving the morning line, knowing inventory is handled.",
+    img: "https://picsum.photos/seed/busycafe/800/1000?blur=1",
+    tag: "Peace of Mind"
+  }
+];
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.3
+      }
+    }
+  };
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const itemVariants = {
+    hidden: { opacity: 0, x: -50 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+  };
 
   return (
-    <section ref={containerRef} className="relative min-h-[100svh] pt-32 pb-20 overflow-hidden flex flex-col items-center justify-center">
-      {/* Animated Gradient Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden isolate pointer-events-none">
-        <motion.div 
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-            x: ["-10%", "10%", "-10%"],
-            y: ["10%", "-10%", "10%"]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute top-0 left-1/4 w-[60vw] h-[60vw] rounded-full bg-gradient-to-tr from-brand-primary/20 via-brand-primary-light/10 to-transparent blur-3xl mix-blend-multiply"
+    <section className="relative min-h-[100svh] pt-32 pb-0 flex flex-col justify-between bg-white overflow-hidden">
+      
+      {/* Dynamic Video Background Layer */}
+      <div className="absolute inset-0 w-full h-[80%] z-0 pointer-events-none origin-top overflow-hidden">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105"
+          src="/background.mp4" 
         />
-        <motion.div 
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.4, 0.2],
-            x: ["10%", "-10%", "10%"],
-            y: ["-10%", "10%", "-10%"]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 1 }}
-          className="absolute bottom-10 right-1/4 w-[50vw] h-[50vw] rounded-full bg-gradient-to-bl from-brand-primary-light/20 to-transparent blur-3xl mix-blend-multiply"
-        />
+        {/* Fallback gradient in case video path is missing */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/10 via-transparent to-brand-primary-light/5 -z-10" />
+        {/* Soft fade out to bottom */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white" />
       </div>
 
-      <motion.div 
-        style={{ y, opacity, scale }}
-        className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-black/5 backdrop-blur-sm text-sm font-medium text-ink mb-8 shadow-sm"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-brand-primary animate-pulse"></span>
-          Meet Gradient 365 Cafe Portal
-        </motion.div>
+      {/* Top Header Section */}
+      <div className="container mx-auto px-6 mb-12 flex flex-col gap-8 relative z-10 w-full shrink-0">
+        <div className="max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 backdrop-blur-md border border-white/60 text-sm font-medium text-ink mb-8 shadow-sm mix-blend-hard-light"
+          >
+            <span className="flex h-2 w-2 rounded-full bg-brand-primary animate-pulse"></span>
+            Meet Gradient 365 Cafe Portal
+          </motion.div>
 
-        <motion.h1 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-[-0.03em] text-ink max-w-5xl leading-[1.05]"
-        >
-          Run your cafe, <br className="hidden md:block"/>
-          <span className="font-serif italic text-brand-primary font-normal mt-2 md:mt-0 inline-block">not your spreadsheets.</span>
-        </motion.h1>
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-[40px] md:text-[48px] lg:text-[56px] font-bold tracking-[-0.03em] text-ink/90 leading-[1.1] mb-6 mix-blend-multiply"
+          >
+            Run your cafe,<br />
+            <span className="font-serif italic text-brand-primary/90 font-normal mt-1 inline-block">not your spreadsheets.</span>
+          </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          className="mt-8 text-xl text-soft-ink max-w-2xl font-light"
-        >
-          Discover suppliers, negotiate pricing, and manage all your inventory in one beautiful platform designed specifically for independent cafe owners.
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-xl text-soft-ink/90 font-light leading-relaxed mb-8 max-w-xl mix-blend-multiply"
+          >
+            Discover suppliers, negotiate pricing, and manage all your inventory in one beautiful platform built for the real world.
+          </motion.p>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className="mt-10 flex flex-col sm:flex-row items-center gap-4"
+          className=""
         >
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="group flex items-center justify-center gap-2 bg-brand-primary text-white px-8 py-4 rounded-full text-lg font-medium tracking-tight shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:shadow-[0_20px_40px_rgba(16,185,129,0.4)] hover:bg-brand-primary-dark transition-all"
+          <a 
+            href="#role-entry"
+            className="group inline-flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-full text-lg font-medium tracking-tight shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:shadow-[0_15px_40px_rgba(16,185,129,0.4)] hover:bg-brand-primary-dark transition-all w-full sm:w-auto"
           >
             Start Ordering Smarter
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-          
-          <button className="px-8 py-4 rounded-full text-lg font-medium text-soft-ink hover:text-ink transition-colors">
-            Book a Demo
-          </button>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 border border-white/20 bg-white/10 rounded-full p-1 box-content transition-transform" />
+          </a>
         </motion.div>
+      </div>
+
+      {/* Interactive Hero Cards Strip */}
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="w-full flex-1 flex flex-col md:flex-row min-h-[40vh] md:min-h-[50vh] xl:min-h-[60vh] mt-auto"
+      >
+        {useCases.map((card) => (
+          <motion.div 
+            key={card.id}
+            variants={itemVariants}
+            className="relative group flex-1 w-full h-[30vh] md:h-auto overflow-hidden border-t md:border-t-0 md:border-l border-black/10 cursor-pointer"
+          >
+            {/* Background Image */}
+            <img 
+              src={card.img} 
+              alt={card.title} 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] scale-100 group-hover:scale-[1.05]" 
+              referrerPolicy="no-referrer"
+            />
+            
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-ink/60 transition-colors duration-700 ease-out group-hover:bg-ink/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+            
+            {/* Tag (Always visible, slightly fades on hover) */}
+            <div className="absolute top-6 left-6 px-3 py-1 bg-white/20 backdrop-blur-md border border-white/10 rounded-full text-white text-xs font-semibold tracking-wider uppercase opacity-90 group-hover:opacity-100 transition-opacity">
+              {card.tag}
+            </div>
+
+            {/* Hover Interaction Content */}
+            <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col justify-end">
+              <div className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform group-hover:-translate-y-2">
+                <h3 className="text-white text-2xl md:text-3xl font-bold">{card.title}</h3>
+              </div>
+              <div className="h-0 md:h-auto md:max-h-0 opacity-0 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:max-h-[100px] group-hover:opacity-100 mt-0 group-hover:mt-3">
+                <p className="text-white/90 text-sm md:text-base leading-relaxed drop-shadow-md">
+                  {card.desc}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </motion.div>
 
-      {/* Floating UI Elements */}
-      <motion.div 
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-        className="relative z-10 mt-20 w-full max-w-6xl mx-auto px-4 sm:px-6 h-[400px] md:h-[600px] perspective-1000"
-      >
-        <motion.div 
-          animate={{ rotateX: [10, 5, 10], rotateY: [-5, 5, -5] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ transformStyle: 'preserve-3d' }}
-          className="w-full h-full relative"
-        >
-           <DashboardMockup />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
