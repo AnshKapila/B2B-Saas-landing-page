@@ -124,42 +124,51 @@ export default function Hero() {
         animate="show"
         className="w-full flex-1 flex flex-col md:flex-row min-h-[40vh] md:min-h-[50vh] xl:min-h-[60vh] mt-auto"
       >
-        {useCases.map((card) => (
+        {useCases.map((card, idx) => {
+          const isAlternate = idx === 1 || idx === 3;
+          
+          return (
           <motion.div 
             key={card.id}
             variants={itemVariants}
-            className="relative group flex-1 w-full h-[30vh] md:h-auto overflow-hidden border-t md:border-t-0 md:border-l border-black/10 cursor-pointer"
+            className={`relative group flex-1 w-full h-[30vh] md:h-auto overflow-hidden border-t md:border-t-0 md:border-l border-black/10 cursor-pointer ${isAlternate ? 'bg-ink' : ''}`}
           >
             {/* Background Image */}
             <img 
               src={card.img} 
               alt={card.title} 
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] scale-100 group-hover:scale-[1.05]" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] scale-100 group-hover:scale-[1.05] z-0" 
               referrerPolicy="no-referrer"
             />
             
             {/* Overlay */}
-            <div className="absolute inset-0 bg-ink/60 transition-colors duration-700 ease-out group-hover:bg-ink/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+            {isAlternate ? (
+              <div className="absolute inset-0 bg-ink group-hover:bg-brand-primary/85 transition-colors duration-700 ease-out z-10" />
+            ) : (
+              <>
+                <div className="absolute inset-0 bg-ink/60 transition-colors duration-700 ease-out group-hover:bg-ink/30 z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-700 z-10" />
+              </>
+            )}
             
             {/* Tag (Always visible, slightly fades on hover) */}
-            <div className="absolute top-6 left-6 px-3 py-1 bg-white/20 backdrop-blur-md border border-white/10 rounded-full text-white text-xs font-semibold tracking-wider uppercase opacity-90 group-hover:opacity-100 transition-opacity">
+            <div className={`absolute top-6 left-6 px-3 py-1 backdrop-blur-md border rounded-full text-xs font-semibold tracking-wider uppercase opacity-90 group-hover:opacity-100 transition-colors duration-700 z-20 ${isAlternate ? 'bg-brand-primary/10 border-brand-primary/30 text-brand-primary group-hover:border-ink/20 group-hover:text-ink' : 'bg-white/20 border-white/10 text-white'}`}>
               {card.tag}
             </div>
 
             {/* Hover Interaction Content */}
             <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col justify-end">
               <div className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform group-hover:-translate-y-2">
-                <h3 className="text-white text-2xl md:text-3xl font-bold">{card.title}</h3>
+                <h3 className={`text-2xl md:text-3xl font-bold transition-colors duration-700 ${isAlternate ? 'text-brand-primary group-hover:text-ink' : 'text-white'}`}>{card.title}</h3>
               </div>
               <div className="h-0 md:h-auto md:max-h-0 opacity-0 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:max-h-[100px] group-hover:opacity-100 mt-0 group-hover:mt-3">
-                <p className="text-white/90 text-sm md:text-base leading-relaxed drop-shadow-md">
+                <p className={`text-sm md:text-base leading-relaxed drop-shadow-md transition-colors duration-700 ${isAlternate ? 'text-brand-primary/90 group-hover:text-ink/90' : 'text-white/90'}`}>
                   {card.desc}
                 </p>
               </div>
             </div>
           </motion.div>
-        ))}
+        )})}
       </motion.div>
 
     </section>
