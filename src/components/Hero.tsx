@@ -146,19 +146,19 @@ export default function Hero() {
               <div className="absolute inset-0 bg-ink group-hover:bg-brand-primary/85 transition-colors duration-700 ease-out z-10" />
             ) : (
               <>
-                <div className="absolute inset-0 bg-ink/60 transition-colors duration-700 ease-out group-hover:bg-ink/30 z-10" />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-700 z-10" />
+                <div className="absolute inset-0 bg-ink/70 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10" />
               </>
             )}
             
-            {/* Tag (Always visible, slightly fades on hover) */}
-            <div className={`absolute top-6 left-6 px-3 py-1 backdrop-blur-md border rounded-full text-xs font-semibold tracking-wider uppercase opacity-90 group-hover:opacity-100 transition-colors duration-700 z-20 ${isAlternate ? 'bg-brand-primary/10 border-brand-primary/30 text-brand-primary group-hover:border-ink/20 group-hover:text-ink' : 'bg-white/20 border-white/10 text-white'}`}>
+            {/* Tag */}
+            <div className={`absolute top-6 left-6 px-3 py-1 backdrop-blur-md border rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-700 z-20 ${isAlternate ? 'bg-brand-primary/10 border-brand-primary/30 text-brand-primary group-hover:border-ink/20 group-hover:text-ink opacity-90 group-hover:opacity-100' : 'bg-white/20 border-white/10 text-white opacity-0 group-hover:opacity-100'}`}>
               {card.tag}
             </div>
 
             {/* Hover Interaction Content */}
             <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col justify-end">
-              <div className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform group-hover:-translate-y-2">
+              <div className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform ${isAlternate ? 'group-hover:-translate-y-2' : 'translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'}`}>
                 <h3 className={`text-2xl md:text-3xl font-bold transition-colors duration-700 ${isAlternate ? 'text-brand-primary group-hover:text-ink' : 'text-white'}`}>{card.title}</h3>
               </div>
               <div className="h-0 md:h-auto md:max-h-0 opacity-0 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:max-h-[100px] group-hover:opacity-100 mt-0 group-hover:mt-3">
