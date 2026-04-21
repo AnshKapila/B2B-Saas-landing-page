@@ -1,10 +1,12 @@
 import Hero from "./components/Hero";
 import Stats from "./components/Stats";
 import ClientLogos from "./components/ClientLogos";
+import BentoFeatures from "./components/BentoFeatures";
 import RoleEntry from "./components/RoleEntry";
 import ProblemSolution from "./components/ProblemSolution";
 import Features from "./components/Features";
 import ProductExperience from "./components/ProductExperience";
+import DemoBanner from "./components/DemoBanner";
 import Trust from "./components/Trust";
 import FinalCTA from "./components/FinalCTA";
 import Navbar from "./components/Navbar";
@@ -20,10 +22,12 @@ export default function App() {
         <Hero />
         <Stats />
         <ClientLogos />
+        <BentoFeatures />
         <RoleEntry />
         <ProblemSolution />
         <Features />
         <ProductExperience />
+        <DemoBanner />
         <Trust />
         <FinalCTA />
       </main>
