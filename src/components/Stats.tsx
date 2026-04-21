@@ -34,7 +34,7 @@ const Metric = ({ value, suffix = "", prefix = "", label, delay = 0 }: MetricPro
 
   return (
     <div ref={ref} className="flex flex-col gap-2 relative group">
-      <div className="text-5xl md:text-6xl font-bold text-ink mb-2">
+      <div className="text-5xl md:text-6xl font-bold text-brand-secondary mb-2">
         <span ref={numberRef}>0</span>
         <span className="opacity-0 hidden">{prefix}{value}{suffix}</span> {/* A11y & SSR fallback spacer */}
       </div>

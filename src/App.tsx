@@ -20,8 +20,8 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <Stats />
         <ClientLogos />
+        <Stats />
         <BentoFeatures />
         <RoleEntry />
         <ProblemSolution />
