@@ -39,10 +39,7 @@ export default function RoleEntry() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-primary/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-brand-primary/10 transition-colors duration-500" />
             
             <div className="relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-black/5 flex items-center justify-center text-brand-primary mb-8 group-hover:scale-110 transition-transform duration-500">
-                <Store size={32} />
-              </div>
-              <h3 className="text-3xl font-bold text-ink mb-4 group-hover:text-brand-primary transition-colors">I run a Cafe</h3>
+              <h3 className="text-3xl font-normal text-ink mb-4 group-hover:text-brand-primary transition-colors">I run a Cafe</h3>
               <p className="text-soft-ink leading-relaxed font-light mb-8 max-w-sm">
                 I want to order from all my suppliers in one place, track deliveries, and stop managing invoices on WhatsApp and spreadsheets.
               </p>
@@ -68,10 +65,7 @@ export default function RoleEntry() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-secondary/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-brand-secondary/10 transition-colors duration-500" />
             
             <div className="relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-black/5 flex items-center justify-center text-brand-secondary mb-8 group-hover:scale-110 transition-transform duration-500">
-                <Truck size={32} />
-              </div>
-              <h3 className="text-3xl font-bold text-ink mb-4 group-hover:text-brand-secondary transition-colors">I am a Supplier</h3>
+              <h3 className="text-3xl font-normal text-ink mb-4 group-hover:text-brand-secondary transition-colors">I am a Supplier</h3>
               <p className="text-soft-ink leading-relaxed font-light mb-8 max-w-sm">
                 I want a digital storefront, automated incoming orders, and an easier way to negotiate with and bill all my cafe clients.
               </p>
